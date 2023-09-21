@@ -1,8 +1,12 @@
 require('dotenv').config({ path: './config/config.env' });
 const nodemailer = require("nodemailer");
 const express = require("express");
+const cors = require('cors');
 const app = express();
 app.use(express.json());
+app.use(cors({
+    origin: 'http://127.0.0.1:5500', // Replace with your desired origin
+  }));
 // Create a transporter using Google's SMTP server
 const transporter = nodemailer.createTransport({
     service: "gmail",
@@ -11,16 +15,20 @@ const transporter = nodemailer.createTransport({
         pass: process.env.PASS
     },
 });
+// Handle the form data and send the email
+app.get("/", (req, res) => {
+    res.send("dasdasd");
+});
 
 // Handle the form data and send the email
 app.post("/sendmail", (req, res) => {
     const { name, email, subject, message } = req.body;
-  
+  console.log(req.body)
     const mailOptions = {
         from: `"${name}" <${email}>`,
-        to: process.env.TO, // Replace with the recipient's email address
+        to: process.env.TO,
         subject: subject,
-        text: message,
+        text: name + " " + email + " " + subject + " " + message,
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
