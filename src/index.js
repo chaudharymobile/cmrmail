@@ -5,7 +5,7 @@ const cors = require('cors');
 const app = express();
 app.use(express.json());
 app.use(cors({
-    origin: 'http://127.0.0.1:5500', // Replace with your desired origin
+    origin: ['http://127.0.0.1:5500', ], // Replace with your desired origin
   }));
 // Create a transporter using Google's SMTP server
 const transporter = nodemailer.createTransport({
